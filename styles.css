@@ -1,0 +1,98 @@
+html {
+    background: rgb(225, 225, 225);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Title */
+
+.title-main, .title-sub {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.title-main {
+    font-size: 48px;
+    font-weight: bolder;
+}
+
+.title-sub {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Calculator */
+
+.calculator {
+    padding: 12px;
+    margin: 12px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: minmax(75px, auto) repeat(5, 80px);
+    grid-gap: 12px;
+    padding: 6px;
+    border-width: 4px;
+    border-color: black;
+    border: solid;
+    border-radius: 12px;
+    background-color: black;
+}
+
+.screen {
+    grid-column: 1 / -1;
+    background-color: lightgray;
+    align-items: flex-end;
+    justify-content: space-around;
+}
+
+.screen p {
+    padding: 5px;
+    font-size: 48px;
+    margin: 5px;
+}
+
+
+/* UTIL */
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+
+button {
+    margin: 1px;
+    border-radius: 5%;
+    border: none;
+    font-weight: initial;
+    font-size: 24px;
+    font-family: monospace;
+    color: black;
+}
+
+.zero {
+    grid-column: span 2;
+}
+
+.operator, .equals {
+    background-color: rgb(250, 185, 75);
+}
+
+.operand, .decimal {
+    background-color: rgb(75, 145, 75);
+}
+
+.clear, .percent, .sign {
+    background-color: lightblue;
+}
