@@ -81,6 +81,10 @@ button {
     color: black;
 }
 
+button:active {
+    filter: brightness(0.85);
+}
+
 .zero {
     grid-column: span 2;
 }
