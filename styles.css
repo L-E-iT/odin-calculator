@@ -36,8 +36,8 @@ html {
     grid-template-columns: repeat(4, 100px);
     grid-template-rows: minmax(75px, auto) repeat(5, 80px);
     grid-gap: 12px;
-    padding: 6px;
-    border-width: 4px;
+    padding: 12px;
+    border-width: 6px;
     border-color: black;
     border: solid;
     border-radius: 12px;
