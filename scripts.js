@@ -11,16 +11,19 @@ const percent = document.querySelector('.percent');
 const decimal = document.querySelector('.decimal');
 const screen = document.querySelector('#screen-value');
 
-let previousOperand = 0;
-let currentOperand = 0;
-let previousResult = 0;
 let operation = null;
 let justOperated = false;
+
+window.addEventListener('keydown', function (e) {
+    const key = this.document.querySelector(`button[data-key="${e.keyCode}"]`);
+    key.click();
+});
+
 
 orperands.forEach((orperand) => {
     orperand.addEventListener('click', (e) => {
         if (justOperated) {
-            screen.innerHTML = e.target.value
+            screen.innerHTML = e.target.value;
             justOperated = false;
             return;
         }
@@ -30,16 +33,12 @@ orperands.forEach((orperand) => {
         } else {
             screen.innerHTML += e.target.value;
         }
-        currentOperand = screen.innerHTML;
     });
 });
 
 clear.addEventListener('click', () => {
     screen.innerHTML = '0';
-    previousResult = 0;
-    previousOperand = 0;
-    currentOperand = 0;
-    justOperated = false;
+    previousOperand = null;
     operation = null;
 });
 
@@ -66,13 +65,14 @@ decimal.addEventListener('click', () => {
 
 operators.forEach((operator) => {
     operator.addEventListener('click', (e) => {
-        if (justOperated) {
-            return;
-        }
         if (operation != null) {
-            // Figure this garbage out...
+            newValue = calculate(previousOperand, screen.innerHTML);
+            screen.innerHTML = newValue;
+            previousOperand = newValue;
+            operation = e.target.value;
             return;
         }
+
         switch (e.target.value) {
             case '+':
                 previousOperand = parseFloat(screen.innerHTML);
@@ -96,7 +96,12 @@ operators.forEach((operator) => {
 });
 
 equals.addEventListener('click', () => {
-    calculate(previousOperand, currentOperand);
+    if (operation === null) {
+        return;
+    }
+    newValue = calculate(previousOperand, screen.innerHTML);
+    operation = null;
+    screen.innerHTML = newValue;
 });
 
 function calculate(firstNumber, secondNumber) {
@@ -106,35 +111,39 @@ function calculate(firstNumber, secondNumber) {
 
     switch (operation) {
         case '+':
-            newValue = parseFloat((firstNumber + secondNumber).toFixed(10));
+            newValue = parseFloat(add(firstNumber, secondNumber).toFixed(10));
             break;
         case '-':
-            if (justOperated) {
-                newValue = parseFloat((secondNumber - firstNumber).toFixed(10));
-            } else {
-                newValue = parseFloat((firstNumber - secondNumber).toFixed(10));
-            }
+            newValue = parseFloat(subtract(firstNumber, secondNumber).toFixed(10));
             break;
         case '*':
-            newValue = parseFloat((firstNumber * secondNumber).toFixed(10));
+            newValue = parseFloat(multiply(firstNumber, secondNumber).toFixed(10));
             break;
         case '/':
-            if (secondNumber === 0) {
-                newValue = 'Error';
-                break;
-            }
-            if (justOperated) {
-                newValue = parseFloat((secondNumber / firstNumber).toFixed(10));
-            } else {
-                newValue = parseFloat((firstNumber / secondNumber).toFixed(10));
-            }
+            newValue = parseFloat(divide(firstNumber, secondNumber).toFixed(10));
             break;
     }
-    if (!justOperated) {
-        previousOperand = currentOperand;
-    }
-
     justOperated = true;
-    screen.innerHTML = newValue;
-    currentOperand = newValue;
+    return newValue;
+}
+
+// Operations
+
+function add(firstNumber, secondNumber) {
+    return firstNumber + secondNumber;
+}
+
+function subtract(firstNumber, secondNumber) {
+    return firstNumber - secondNumber;
+}
+
+function multiply(firstNumber, secondNumber) {
+    return firstNumber * secondNumber;
+}
+
+function divide(firstNumber, secondNumber) {
+    if (secondNumber === 0) {
+        return 'Error';
+    }
+    return firstNumber / secondNumber;
 }
